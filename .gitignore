@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+*.whl
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Django
+*.db
+*.sqlite
+*.sqlite3
+media/
+staticfiles/
+static/
+*.mo
+
+# IDE
+.vscode/
+.idea/
+
+# Environment
+.env
+
+# Logs
+*.log
+
+# Coverage
+coverage/
+htmlcov/
+.coverage
+.coverage.*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific
+node_modules/
