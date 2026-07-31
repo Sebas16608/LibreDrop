@@ -946,6 +946,11 @@ section[id] {
     display: inline-flex;
   }
 
+  .header-inner {
+    justify-content: space-between;
+    gap: 16px;
+  }
+
   .main-nav {
     position: absolute;
     top: 100%;
