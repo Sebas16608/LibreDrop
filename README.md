@@ -5,15 +5,18 @@
 - Crea tu tienda, publica productos y recibe pedidos por WhatsApp.
 - Sin intermediarios ni comisiones. Tú controlas tus datos y API keys.
 - Arquitectura modular con Django y Django REST Framework.
+- Multi-tenant: cada tienda aísla sus categorías y productos.
 
 ## Stack
 
 | Capa | Tecnología |
 |------|-----------|
 | Backend | Python 3.12+, Django 6, DRF |
+| Autenticación | JWT (djangorestframework-simplejwt) |
 | Base de datos | PostgreSQL (producción) / SQLite (desarrollo) |
 | Imágenes | Cloudinary |
 | API | REST |
+| Landing pages | HTML, CSS y JS vanilla (deploy en Vercel) |
 
 ## Requisitos
 
@@ -46,6 +49,10 @@ python manage.py migrate
 python manage.py runserver
 ```
 
+> **Nota sobre la base de datos:** el backend usa PostgreSQL por defecto en el código
+> de ejemplo. Para desarrollo con SQLite, define `DB_ENGINE=django.db.backends.sqlite3`
+> en tu `.env`. Consulta [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) para el detalle.
+
 ## Configuración
 
 Copia `.env.example` a `.env` y completa las variables:
@@ -53,13 +60,32 @@ Copia `.env.example` a `.env` y completa las variables:
 | Variable | Descripción |
 |----------|-------------|
 | `SECRET_KEY` | Clave secreta de Django |
-| `DEBUG` | True para desarrollo |
-| `ALLOWED_HOSTS` | Hosts permitidos |
+| `DEBUG` | `True` para desarrollo |
+| `ALLOWED_HOSTS` | Hosts permitidos (separados por comas) |
 | `CLOUDINARY_CLOUD_NAME` | Tu cloud name de Cloudinary |
 | `CLOUDINARY_API_KEY` | Tu API key de Cloudinary |
 | `CLOUDINARY_API_SECRET` | Tu API secret de Cloudinary |
-| `DB_ENGINE` | Motor de BD (opcional, default SQLite) |
-| `DB_NAME`, `DB_USER`, etc. | Credenciales de PostgreSQL (opcional) |
+| `DB_ENGINE` | Motor de BD (default `django.db.backends.postgresql`) |
+| `DB_NAME` | Nombre de la base de datos |
+| `DB_USER` | Usuario de la base de datos |
+| `DB_PASSWORD` | Contraseña de la base de datos |
+| `DB_HOST` | Host de la base de datos |
+| `DB_PORT` | Puerto de la base de datos |
+
+## Estructura del proyecto
+
+```
+LibreDrop/
+├── backend/          # API REST (Django)
+│   ├── accounts/     # Registro, login y gestión de usuarios
+│   ├── shop/         # Creación y configuración de tiendas
+│   ├── catalog/      # Categorías y productos
+│   └── libredrop/    # Configuración del proyecto Django
+├── landing/          # Landing pages estáticas
+│   ├── libredrop/       # libredrop.vercel.app
+│   └── libredrop_cloud/ # libredrop-cloud.vercel.app
+└── docs/             # Documentación técnica
+```
 
 ## Apps
 
@@ -72,8 +98,13 @@ Copia `.env.example` a `.env` y completa las variables:
 ## Documentación
 
 - [VERSIONS.md](docs/VERSIONS.md) — versionado y características del proyecto.
+- [ARCHITECTURE.md](docs/ARCHITECTURE.md) — arquitectura, modelos y relaciones.
+- [API.md](docs/API.md) — referencia de la API REST.
+- [ROADMAP.md](docs/ROADMAP.md) — hoja de ruta del proyecto.
+- [DEPLOYMENT.md](docs/DEPLOYMENT.md) — guía de despliegue (backend y landing).
 - [CONTRIB.md](CONTRIB.md) — guía para contribuir.
 - [Backend README](backend/README.md) — documentación técnica del backend.
+- [Landing README](landing/README.md) — documentación de las landing pages.
 
 ## Licencia
 
