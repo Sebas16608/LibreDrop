@@ -47,6 +47,10 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         return data
 
+# TODO: ESTE SERIALIZER ESTÁ INCOMPLETO Y NO SE PUEDE USAR AÚN.
+# Los errores conocidos son: campo 'password_confirm' debería ser 'password',
+# attrs no es un objeto (usar attrs['username']), falta importar 'authenticate',
+# self.context en vez de request.self.context, y el método create está sin terminar.
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(required=True)
     password_confirm = serializers.CharField(
