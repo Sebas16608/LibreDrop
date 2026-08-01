@@ -48,4 +48,36 @@ class RegisterSerializer(serializers.ModelSerializer):
         return data
 
 class LoginSerializer(serializers.Serializer):
-    pass
+    username = serializers.CharField(required=True)
+    password_confirm = serializers.CharField(
+        write_only = True,
+        required = True,
+        style = {"inpyt_type": "password"}
+    )
+
+    def validate(self, attrs):
+        username = attrs.username
+        password = attrs.password
+
+        if username and password:
+            user = authenticate(
+                request.self.context.get('request'),
+                username = username,
+                password = password,
+            )
+            if not user:
+                raise serializers.ValidationError("credenciales invalidas", code = 'authorization')
+            if not user.is_active:
+                raise serializers.ValidationError("Cuenta desacrtivada", code = 'authorization')
+        else:
+            raise serializers.ValidationError(
+                "debe incluir username y password",
+                code = 'authorization'
+            )
+        attrs['user'] = user
+        return attrs
+
+    def create(self, validated_data):
+        user = validated_data['user']
+        token = RefreshToken.for_user
+
