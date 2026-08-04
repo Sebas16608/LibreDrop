@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from cloudinary.models import CloudinaryField
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 from shop.models import Shop
 
@@ -8,7 +9,7 @@ from shop.models import Shop
 class Category(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE, related_name="categories")
     name = models.CharField(max_length=255)
-    slug = models.SlugField()
+    slug = models.SlugField(max_length=255, db_index=True)
     description = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -18,6 +19,10 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
 
 
 class Product(models.Model):
@@ -30,7 +35,10 @@ class Product(models.Model):
     description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     purchase_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    discount = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    discount = models.DecimalField(max_digits=5, decimal_places=2, default=0,  validators=[
+           MinValueValidator(0),
+           MaxValueValidator(100)
+    ])
     stock = models.PositiveIntegerField(default=0)
     image = CloudinaryField("image", blank=True, null=True)
     is_active = models.BooleanField(default=True)
@@ -42,3 +50,11 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+
+
+        self.is_active = self.stock > 0
+        super().save(*args, **kwargs)
