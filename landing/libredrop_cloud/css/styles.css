@@ -1,6 +1,6 @@
 :root {
   --color-bg: #ffffff;
-  --color-surface: #f9fafb;
+  --color-surface: #ffffff;
   --color-surface-hover: #f3f4f6;
   --color-border: #e5e7eb;
   --color-border-strong: #cbd5e1;
@@ -8,7 +8,7 @@
   --color-muted: #64748b;
   --color-primary: #2563eb;
   --color-primary-dark: #1d4ed8;
-  --color-primary-soft: #eff6ff;
+  --color-primary-soft: #ffffff;
   --color-primary-soft-border: #dbeafe;
 
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
@@ -377,9 +377,7 @@ section[id] {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background:
-    radial-gradient(760px 380px at 12% -8%, var(--color-primary-soft), transparent 60%),
-    radial-gradient(900px 420px at 88% -16%, #f0f4ff, transparent 55%);
+  background: none;
 }
 
 .hero-inner {
@@ -390,6 +388,7 @@ section[id] {
 
 .hero-title-row {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   gap: 16px;
@@ -892,12 +891,34 @@ section[id] {
 }
 
 @media (max-width: 640px) {
+  .hero-title-row {
+    gap: 10px;
+  }
+
+  .hero-title-icon {
+    height: 36px;
+  }
+
+  .hero-actions .btn,
+  .cta-actions .btn {
+    white-space: normal;
+  }
+
+  .plan-card {
+    padding: 24px;
+  }
+
   .benefits-grid {
     grid-template-columns: 1fr;
   }
 
   .compare-grid {
     grid-template-columns: 1fr;
+  }
+
+  .compare-table {
+    min-width: 420px;
+    font-size: 0.9rem;
   }
 
   .hero-actions,
@@ -932,8 +953,23 @@ section[id] {
     padding-block: 48px;
   }
 
+  .hero-title-row {
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+
+  .hero-title-icon {
+    height: 32px;
+  }
+
   .hero-title {
-    font-size: 2.25rem;
+    font-size: 2rem;
+  }
+
+  .hero-description,
+  .section-description {
+    font-size: 0.98rem;
   }
 
   .section-head {
