@@ -435,12 +435,14 @@ section[id] {
 }
 
 .benefits-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 20px;
 }
 
 .benefit-card {
+  flex: 0 1 calc(25% - 15px);
   padding: 28px 24px;
   background: #fff;
   border: 1px solid var(--color-border);
@@ -827,8 +829,8 @@ section[id] {
 }
 
 @media (max-width: 1024px) {
-  .benefits-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .benefit-card {
+    flex-basis: calc(50% - 10px);
   }
 }
 
@@ -908,8 +910,8 @@ section[id] {
     padding: 24px;
   }
 
-  .benefits-grid {
-    grid-template-columns: 1fr;
+  .benefit-card {
+    flex-basis: 100%;
   }
 
   .compare-grid {
